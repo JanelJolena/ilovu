@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Hành Trình Làm B Vui!</title>
+  <style>
+    body {
+      background: url('bg.jpg') no-repeat center center fixed;
+      background-size: cover;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .card {
+      background-color: rgba(255, 255, 255, 0.9);
+      border: 3px solid #ff69b4;
+      border-radius: 15px;
+      padding: 30px;
+      width: 400px;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .heart {
+      color: red;
+      font-size: 40px;
+      margin-bottom: 10px;
+      animation: pulse 1.2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+
+    h1 {
+      color: #ff1493;
+    }
+
+    #message {
+      font-size: 18px;
+      color: #333;
+      margin: 20px 0;
+      min-height: 60px;
+    }
+
+    #memoryImage {
+      width: 100%;
+      max-height: 200px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-top: 10px;
+      display: none;
+      opacity: 0;
+      transition: opacity 0.6s;
+    }
+
+    .signature {
+      margin-top: 30px;
+      font-style: italic;
+      color: #777;
+    }
+
+    .btn-container {
+      margin-top: 20px;
+    }
+
+    button {
+      background-color: #ff69b4;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      margin: 5px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #ff1493;
+    }
+
+    /* Heart animation */
+    .burst-heart {
+      position: absolute;
+      font-size: 24px;
+      color: red;
+      animation: floatUp 1s ease-out forwards;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    @keyframes floatUp {
+      0% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(-100px) scale(1.5);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="card" id="card">
+    <div class="heart">❤️</div>
+    <h1>Hành Trình Làm b Vui!!!</h1>
+    <div id="message">Bấm mấy cái nút dưới đây đeeeee</div>
+    <img id="memoryImage" src="" alt="Memory Image" />
+    <div class="btn-container">
+      <button onclick="playMusicAndShowMessage(0)">Lời Nhắn 1</button>
+      <button onclick="playMusicAndShowMessage(1)">Lời Nhắn 2</button>
+      <button onclick="playMusicAndShowMessage(2)">Lời Nhắn 3</button>
+    </div>
+    <div class="signature">— Híu Deptry 💖</div>
+  </div>
+
+  <script>
+    const messages = [
+      "B owii, học mệt lắm đúng hong? mỗi lần mệt mỏi hãy nhắn cho tui 1 tin, tui hứa sẽ cố gắng mọi cách làm cho b cười một cách vui vẻ",
+      "B owiii. đừng giữ những cảm xúc xấu trong lòng nhé có tui đây mà....",
+      "Tin nhắn cuối cùng r huhu, b owiii nhớ giữ gìn sức khỏe nhéeeeee bởi vì có người thực sự quan tâm đến bạn đóooooo"
+    ];
+
+    const imagePaths = [
+      "memory1.jpg",
+      "memory2.jpg",
+      "memory3.jpg"
+    ];
+
+    const audio = new Audio("love-song.mp3");
+    let hasPlayed = false;
+
+    function playMusicAndShowMessage(index) {
+      if (!hasPlayed) {
+        audio.play();
+        hasPlayed = true;
+      }
+
+      // Show message
+      document.getElementById("message").textContent = messages[index];
+
+      // Show image with fade effect
+      const img = document.getElementById("memoryImage");
+      img.src = imagePaths[index];
+      img.style.opacity = 0;
+      img.style.display = "block";
+      setTimeout(() => {
+        img.style.opacity = 1;
+      }, 50);
+
+      // Launch heart burst animation
+      launchHeartBurst();
+    }
+
+    function launchHeartBurst() {
+      const card = document.getElementById("card");
+      const heart = document.createElement("div");
+      heart.className = "burst-heart";
+      heart.textContent = "💖";
+
+      // Random horizontal position inside the card
+      heart.style.left = Math.random() * (card.clientWidth - 24) + "px";
+      heart.style.top = card.clientHeight - 40 + "px";
+
+      card.appendChild(heart);
+
+      setTimeout(() => card.removeChild(heart), 1000);
+    }
+  </script>
+</body>
+</html>
