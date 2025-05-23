@@ -132,51 +132,58 @@
       "Tin nhắn cuối cùng r huhu, b owiii nhớ giữ gìn sức khỏe nhéeeeee bởi vì có người thực sự quan tâm đến bạn đóooooo"
     ];
 
-    const imagePaths = [
-      "memory1.jpg",
-      "memory2.jpg",
-      "memory3.jpg"
-    ];
+  const imagePaths = [
+    "memory1.jpg",
+    "memory2.jpg",
+    "memory3.jpg"
+  ];
 
-    const audio = new Audio("love-song.mp3");
-    let hasPlayed = false;
+  const clickSounds = [
+    new Audio("click1.mp3"),
+    new Audio("click2.mp3"),
+    new Audio("click3.mp3")
+  ];
 
-    function playMusicAndShowMessage(index) {
-      if (!hasPlayed) {
-        audio.play();
-        hasPlayed = true;
-      }
+  const music = new Audio("love-song.mp3");
+  let hasPlayed = false;
 
-      // Show message
-      document.getElementById("message").textContent = messages[index];
-
-      // Show image with fade effect
-      const img = document.getElementById("memoryImage");
-      img.src = imagePaths[index];
-      img.style.opacity = 0;
-      img.style.display = "block";
-      setTimeout(() => {
-        img.style.opacity = 1;
-      }, 50);
-
-      // Launch heart burst animation
-      launchHeartBurst();
+  function playMusicAndShowMessage(index) {
+    // Play love song only once
+    if (!hasPlayed) {
+      music.play();
+      hasPlayed = true;
     }
 
-    function launchHeartBurst() {
-      const card = document.getElementById("card");
-      const heart = document.createElement("div");
-      heart.className = "burst-heart";
-      heart.textContent = "💖";
+    // Play button sound
+    clickSounds[index].currentTime = 0;
+    clickSounds[index].play();
 
-      // Random horizontal position inside the card
-      heart.style.left = Math.random() * (card.clientWidth - 24) + "px";
-      heart.style.top = card.clientHeight - 40 + "px";
+    // Show message
+    document.getElementById("message").textContent = messages[index];
 
-      card.appendChild(heart);
+    // Show image
+    const img = document.getElementById("memoryImage");
+    img.src = imagePaths[index];
+    img.style.opacity = 0;
+    img.style.display = "block";
+    setTimeout(() => img.style.opacity = 1, 50);
 
-      setTimeout(() => card.removeChild(heart), 1000);
-    }
-  </script>
+    // Heart animation
+    launchHeartBurst();
+  }
+
+  function launchHeartBurst() {
+    const card = document.getElementById("card");
+    const heart = document.createElement("div");
+    heart.className = "burst-heart";
+    heart.textContent = "💖";
+
+    heart.style.left = Math.random() * (card.clientWidth - 24) + "px";
+    heart.style.top = card.clientHeight - 40 + "px";
+
+    card.appendChild(heart);
+    setTimeout(() => card.removeChild(heart), 1000);
+  }
+</script>
 </body>
 </html>
