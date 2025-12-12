@@ -1,38 +1,233 @@
-            <div class="heart">
-                <div class="heart-inner"></div>
-            </div>
-            <div class="letter" id="letter">
-                <button class="close-btn" id="closeBtn">×</button>
-                <div class="letter-content">
-                    <h2>My unsent love letter</h2>
-                    <p>Haii tui biết là bọn mình kết thúc lâu rồi, tui cũng biết là lời nói yêu lời qtam của tui cũng mất hết giá trị ròi nên cho tui đc nói mấy cday lần cuối nhaa</p>
-                    <p>Giá như tui chậm lại 1 xíu nhỉ thì maybe bây h bọn mình vẫn đang vui vẻ chơi game ròi, tui đc khen bà xinh đc ngắm bà rùi đc iu bà mấy điều đấy làm 3 tháng qua siêu vui. Thời gian chậm lại 1 chút 1 tý nữa thôi tui đc nắm tay bà, đc ôm bà sau xe chắc quý giá lắm đếy</p>
-                    <p>Có 1 sự thật rằng tui vẫn iu bà rất nhiều dù gì cũng mới có 3 tháng à tình cẻm tất nhiên còn nhiều ròi. Dạo này cũng hong ổn lắm nma tui đứng từ xa thấy bà vui nghe con diên kể lại chơi với bà với Qanh vui lém, ui tui nghe vui lắm siu an tâm lun, dù tui vẫn còn luỵ bà nma tui ko biết bà như nào về tui nữa mà chắc ko nữa đâu, dạo này xinh lên đúng khong, chụp ảnh cũng nhiều nữa cơ muốn khen với hun má gheee nma hết cơ hội roi huhu.</p>
-                    <p>Ko đc nắm tay đi lotte nữa ko đc ôm bà đi ngắm bãi sau nữa, đáng đời tui chưa. Này nhá, giữ gìn skhoe đó mà chắc ko cần t nhắc đâu vì bản chất m đã là ng siêu mạnh mẽ rồi. Đừng buồn nữa nhe, mấy nay buồn đúng hong, buồn nhiều xấu gái lắm đấy nhớ, mà chắc ko sao đou bà buồn nhiều mà vẫn xinh r 😔 VUI LENNNN. Tui chưa từng hối hận khi làm gì với bà, 1 lần cuối cùng nữa thôi. Anh yêu em nhiều lắm.                    <div class="signature">
-                        <p>merci, mi amor</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <p class="instruction">My unsent loveletter</p>
-    </div>
-    
-    <div class="floating-hearts" id="floatingHearts"></div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>co gang lam gai xinh vuii</title>
+  <style>
+    body {
+      background: url('bg.jpg') no-repeat center center fixed;
+      background-size: cover;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const envelope = document.getElementById('envelope');
-            const letter = document.getElementById('letter');
-            const closeBtn = document.getElementById('closeBtn');
-            const floatingHearts = document.getElementById('floatingHearts');
-            
-            // Tạo hiệu ứng trái tim bay
-            function createFloatingHearts() {
-                for (let i = 0; i < 15; i++) {
-                    const heart = document.createElement('div');
-                    heart.classList.add('floating-heart');
-                    
-                    // Vị trí ngẫu nhiên
-                    const left = Math.random() * 100;
-                    const delay = Math.random() * 5;
-                    const duration = 10 + Math.random() * 10;
+    .card {
+      background-color: rgba(255, 255, 255, 0.9);
+      border: 3px solid #ff69b4;
+      border-radius: 15px;
+      padding: 30px;
+      width: 400px;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .heart {
+      color: red;
+      font-size: 40px;
+      margin-bottom: 10px;
+      animation: pulse 1.2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+
+    h1 {
+      color: #ff1493;
+    }
+
+    #message {
+      font-size: 18px;
+      color: #333;
+      margin: 20px 0;
+      min-height: 60px;
+    }
+
+    #memoryImage {
+      width: 100%;
+      max-height: 200px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-top: 10px;
+      display: none;
+      opacity: 0;
+      transition: opacity 0.6s;
+    }
+
+    .signature {
+      margin-top: 30px;
+      font-style: italic;
+      color: #777;
+    }
+
+    .btn-container {
+      margin-top: 20px;
+    }
+
+    button {
+      background-color: #ff69b4;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      margin: 5px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #ff1493;
+    }
+
+    /* Heart animation */
+    .burst-heart {
+      position: absolute;
+      font-size: 24px;
+      color: red;
+      animation: floatUp 1s ease-out forwards;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    @keyframes floatUp {
+      0% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(-100px) scale(1.5);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="card" id="card">
+    <div class="heart">❤️</div>
+    <h1>Co gang lam gai xinh vui</h1>
+    <div id="message">Bấm mấy cái nút dưới đây đeeeee</div>
+    <img id="memoryImage" src="" alt="Memory Image" />
+    <div class="btn-container">
+      <button onclick="playMusicAndShowMessage(0)">Lời Nhắn 1</button>
+      <button onclick="playMusicAndShowMessage(1)">Lời Nhắn 2</button>
+      <button onclick="playMusicAndShowMessage(2)">Lời Nhắn 3</button>
+    </div>
+    <div class="signature">— Híu Deptry 💖</div>
+  </div>
+
+  <script>
+    const messages = [
+      "Heloo, mấy hnay mệt lắm đúng hong tui thấy bạn bùn nhìu, cho dù là chuyện jii thì bạn cũng xứng đáng được an ủi với iêu thương đấy nhớ!!",
+      "Đố b bit máy gì hay chậm trễ?? Máy Khoan (funny joke plz laugh 😭)",
+      "Tin nhắn cuối cùng ròy, giữ gìn skhoe nhaa 67 67 tralalero tralala"
+    ];
+
+    const imagePaths = [
+      "memory1.jpg",
+      "memory2.jpg",
+      "memory3.jpg"
+    ];
+
+    const audio = new Audio("love-song.mp3");
+    let hasPlayed = false;
+
+    function playMusicAndShowMessage(index) {
+      if (!hasPlayed) {
+        audio.play();
+        hasPlayed = true;
+      }
+
+      // Show message
+      document.getElementById("message").textContent = messages[index];
+
+      // Show image with fade effect
+      const img = document.getElementById("memoryImage");
+      img.src = imagePaths[index];
+      img.style.opacity = 0;
+      img.style.display = "block";
+      setTimeout(() => {
+        img.style.opacity = 1;
+      }, 50);
+
+      // Launch heart burst animation
+      launchHeartBurst();
+  const imagePaths = [
+    "memory1.jpg",
+    "memory2.jpg",
+    "memory3.jpg"
+  ];
+
+  const clickSounds = [
+    new Audio("click1.mp3"),
+    new Audio("click2.mp3"),
+    new Audio("click3.mp3")
+  ];
+
+  const music = new Audio("love-song.mp3");
+  let hasPlayed = false;
+
+  function playMusicAndShowMessage(index) {
+    // Play love song only once
+    if (!hasPlayed) {
+      music.play();
+      hasPlayed = true;
+    }
+
+    function launchHeartBurst() {
+      const card = document.getElementById("card");
+      const heart = document.createElement("div");
+      heart.className = "burst-heart";
+      heart.textContent = "💖";
+
+      // Random horizontal position inside the card
+      heart.style.left = Math.random() * (card.clientWidth - 24) + "px";
+      heart.style.top = card.clientHeight - 40 + "px";
+
+      card.appendChild(heart);
+
+      setTimeout(() => card.removeChild(heart), 1000);
+    }
+  </script>
+    // Play button sound
+    clickSounds[index].currentTime = 0;
+    clickSounds[index].play();
+
+    // Show message
+    document.getElementById("message").textContent = messages[index];
+
+    // Show image
+    const img = document.getElementById("memoryImage");
+    img.src = imagePaths[index];
+    img.style.opacity = 0;
+    img.style.display = "block";
+    setTimeout(() => img.style.opacity = 1, 50);
+
+    // Heart animation
+    launchHeartBurst();
+  }
+
+  function launchHeartBurst() {
+    const card = document.getElementById("card");
+    const heart = document.createElement("div");
+    heart.className = "burst-heart";
+    heart.textContent = "💖";
+
+    heart.style.left = Math.random() * (card.clientWidth - 24) + "px";
+    heart.style.top = card.clientHeight - 40 + "px";
+
+    card.appendChild(heart);
+    setTimeout(() => card.removeChild(heart), 1000);
+  }
+</script>
+</body>
+</html>
