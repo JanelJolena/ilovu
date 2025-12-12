@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -24,8 +25,8 @@
       width: 400px;
       box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
       text-align: center;
-      overflow: hidden;
       position: relative;
+      overflow: hidden;
     }
 
     .heart {
@@ -89,7 +90,6 @@
       background-color: #ff1493;
     }
 
-    /* Heart animation */
     .burst-heart {
       position: absolute;
       font-size: 24px;
@@ -100,14 +100,8 @@
     }
 
     @keyframes floatUp {
-      0% {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-      }
-      100% {
-        opacity: 0;
-        transform: translateY(-100px) scale(1.5);
-      }
+      0% { opacity: 1; transform: translateY(0) scale(1); }
+      100% { opacity: 0; transform: translateY(-100px) scale(1.5); }
     }
   </style>
 </head>
@@ -128,7 +122,7 @@
   <script>
     const messages = [
       "Heloo, mấy hnay mệt lắm đúng hong tui thấy bạn bùn nhìu, cho dù là chuyện jii thì bạn cũng xứng đáng được an ủi với iêu thương đấy nhớ!!",
-      "Đố b bit máy gì hay chậm trễ?? Máy Khoan ,,funny joke plz laugh 😭``",
+      "Đố b bit máy gì hay chậm trễ?? Máy Khoan ,,funny joke plz laugh 😭",
       "Tin nhắn cuối cùng ròy, giữ gìn skhoe nhaa 67 67 tralalero tralala"
     ];
 
@@ -138,49 +132,38 @@
       "memory3.jpg"
     ];
 
-    const audio = new Audio("love-song.mp3");
+    const clickSounds = [
+      new Audio("click1.mp3"),
+      new Audio("click2.mp3"),
+      new Audio("click3.mp3")
+    ];
+
+    const music = new Audio("love-song.mp3");
     let hasPlayed = false;
 
     function playMusicAndShowMessage(index) {
+      // Play background music once
       if (!hasPlayed) {
-        audio.play();
+        music.play();
         hasPlayed = true;
       }
 
-      // Show message
+      // Play click sound
+      clickSounds[index].currentTime = 0;
+      clickSounds[index].play();
+
+      // Update message
       document.getElementById("message").textContent = messages[index];
 
-      // Show image with fade effect
+      // Show image with fade-in effect
       const img = document.getElementById("memoryImage");
       img.src = imagePaths[index];
-      img.style.opacity = 0;
       img.style.display = "block";
-      setTimeout(() => {
-        img.style.opacity = 1;
-      }, 50);
+      img.style.opacity = 0;
+      setTimeout(() => img.style.opacity = 1, 50);
 
-      // Launch heart burst animation
+      // Heart animation
       launchHeartBurst();
-  const imagePaths = [
-    "memory1.jpg",
-    "memory2.jpg",
-    "memory3.jpg"
-  ];
-
-  const clickSounds = [
-    new Audio("click1.mp3"),
-    new Audio("click2.mp3"),
-    new Audio("click3.mp3")
-  ];
-
-  const music = new Audio("love-song.mp3");
-  let hasPlayed = false;
-
-  function playMusicAndShowMessage(index) {
-    // Play love song only once
-    if (!hasPlayed) {
-      music.play();
-      hasPlayed = true;
     }
 
     function launchHeartBurst() {
@@ -189,46 +172,13 @@
       heart.className = "burst-heart";
       heart.textContent = "💖";
 
-      // Random horizontal position inside the card
       heart.style.left = Math.random() * (card.clientWidth - 24) + "px";
       heart.style.top = card.clientHeight - 40 + "px";
 
       card.appendChild(heart);
 
-      setTimeout(() => card.removeChild(heart), 1000);
+      setTimeout(() => heart.remove(), 1000);
     }
   </script>
-    // Play button sound
-    clickSounds[index].currentTime = 0;
-    clickSounds[index].play();
-
-    // Show message
-    document.getElementById("message").textContent = messages[index];
-
-    // Show image
-    const img = document.getElementById("memoryImage");
-    img.src = imagePaths[index];
-    img.style.opacity = 0;
-    img.style.display = "block";
-    setTimeout(() => img.style.opacity = 1, 50);
-
-    // Heart animation
-    launchHeartBurst();
-  }
-
-  function launchHeartBurst() {
-    const card = document.getElementById("card");
-    const heart = document.createElement("div");
-    heart.className = "burst-heart";
-    heart.textContent = "💖";
-
-    heart.style.left = Math.random() * (card.clientWidth - 24) + "px";
-    heart.style.top = card.clientHeight - 40 + "px";
-
-    card.appendChild(heart);
-    setTimeout(() => card.removeChild(heart), 1000);
-  }
-</script>
 </body>
 </html>
-
