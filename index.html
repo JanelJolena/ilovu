@@ -3,60 +3,85 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Chúc Mừng Năm Mới</title>
+<title>Countdown Fireworks</title>
 
 <style>
-    body {
+    * {
         margin: 0;
-        overflow: hidden;
+        padding: 0;
+        box-sizing: border-box;
         font-family: Arial, sans-serif;
-        background: linear-gradient(to top, #000428, #004e92);
+    }
+
+    body {
+        overflow: hidden;
+        background: #000;
         color: white;
         text-align: center;
     }
 
+    /* Main Menu */
     #menu {
         position: absolute;
-        top: 40%;
-        left: 50%;
-        transform: translate(-50%, -50%);
+        width: 100%;
+        height: 100vh;
+        background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        z-index: 10;
     }
 
-    button {
+    #menu h1 {
+        font-size: 40px;
+        margin-bottom: 20px;
+    }
+
+    #startBtn {
         padding: 15px 40px;
-        font-size: 22px;
+        font-size: 20px;
         border: none;
-        border-radius: 10px;
-        background: gold;
+        border-radius: 30px;
+        background: #ff4e50;
+        color: white;
         cursor: pointer;
         transition: 0.3s;
     }
 
-    button:hover {
-        background: orange;
+    #startBtn:hover {
+        background: #ff1c1c;
         transform: scale(1.1);
     }
 
+    /* Countdown */
     #countdown {
-        font-size: 120px;
-        margin-top: 200px;
+        position: absolute;
+        top: 40%;
+        width: 100%;
+        font-size: 100px;
         display: none;
+        z-index: 9;
     }
 
+    /* Message */
     #message {
-        font-size: 40px;
+        position: absolute;
+        top: 40%;
+        width: 100%;
+        font-size: 30px;
         display: none;
-        margin-top: 200px;
-        animation: glow 1.5s infinite alternate;
+        padding: 20px;
+        animation: fadeIn 3s ease forwards;
     }
 
-    @keyframes glow {
-        from { text-shadow: 0 0 10px yellow; }
-        to { text-shadow: 0 0 30px red; }
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
     }
 
     canvas {
-        position: fixed;
+        position: absolute;
         top: 0;
         left: 0;
     }
@@ -66,37 +91,51 @@
 <body>
 
 <div id="menu">
-    <h1>🎆 MAIN MENU 🎆</h1>
-    <button onclick="startShow()">BẮT ĐẦU</button>
+    <h1>✨ Welcome ✨</h1>
+    <button id="startBtn">Bắt đầu</button>
 </div>
 
 <div id="countdown"></div>
-<div id="message">🎉 CHÚC MỪNG NĂM MỚI 2026 🎉<br>
-Chúc bạn và gia đình An Khang - Thịnh Vượng - Vạn Sự Như Ý!</div>
+<div id="message">
+    🌟 Chúc bạn luôn thành công và hạnh phúc!  
+    Hãy tin vào bản thân mình và tỏa sáng như pháo hoa trên bầu trời đêm!
+</div>
+
+<canvas id="fireworks"></canvas>
 
 <audio id="bgMusic" loop>
     <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
 </audio>
 
-<canvas id="fireworks"></canvas>
-
 <script>
-let countdownEl = document.getElementById("countdown");
-let menu = document.getElementById("menu");
-let message = document.getElementById("message");
-let music = document.getElementById("bgMusic");
+const startBtn = document.getElementById("startBtn");
+const menu = document.getElementById("menu");
+const countdownEl = document.getElementById("countdown");
+const message = document.getElementById("message");
+const music = document.getElementById("bgMusic");
 
-function startShow() {
+const canvas = document.getElementById("fireworks");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let particles = [];
+
+startBtn.addEventListener("click", () => {
     menu.style.display = "none";
-    countdownEl.style.display = "block";
+    startCountdown();
+});
 
+function startCountdown() {
     let count = 3;
-    countdownEl.innerHTML = count;
+    countdownEl.style.display = "block";
+    countdownEl.innerText = count;
 
     let interval = setInterval(() => {
         count--;
         if (count > 0) {
-            countdownEl.innerHTML = count;
+            countdownEl.innerText = count;
         } else {
             clearInterval(interval);
             countdownEl.style.display = "none";
@@ -107,56 +146,55 @@ function startShow() {
     }, 1000);
 }
 
-/* ==== FIREWORKS ==== */
-let canvas = document.getElementById("fireworks");
-let ctx = canvas.getContext("2d");
+function launchFireworks() {
+    setInterval(() => {
+        for (let i = 0; i < 100; i++) {
+            particles.push(new Particle(
+                canvas.width / 2,
+                canvas.height / 2
+            ));
+        }
+    }, 1000);
+}
 
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+class Particle {
+    constructor(x, y) {
+        this.x = x;
+        this.y = y;
+        this.radius = 2;
+        this.color = `hsl(${Math.random()*360},100%,50%)`;
+        this.speedX = (Math.random() - 0.5) * 6;
+        this.speedY = (Math.random() - 0.5) * 6;
+        this.life = 100;
+    }
 
-let particles = [];
+    update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+        this.life--;
+    }
 
-function createFirework() {
-    let x = Math.random() * canvas.width;
-    let y = Math.random() * canvas.height / 2;
-    let colors = ["red","yellow","blue","green","orange","purple"];
-
-    for (let i = 0; i < 100; i++) {
-        particles.push({
-            x: x,
-            y: y,
-            radius: 2,
-            color: colors[Math.floor(Math.random()*colors.length)],
-            speedX: (Math.random() - 0.5) * 6,
-            speedY: (Math.random() - 0.5) * 6,
-            life: 100
-        });
+    draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctx.fillStyle = this.color;
+        ctx.fill();
     }
 }
 
 function animate() {
     requestAnimationFrame(animate);
     ctx.fillStyle = "rgba(0,0,0,0.2)";
-    ctx.fillRect(0,0,canvas.width,canvas.height);
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    particles.forEach((p, index) => {
-        p.x += p.speedX;
-        p.y += p.speedY;
-        p.life--;
-
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-        ctx.fillStyle = p.color;
-        ctx.fill();
-
-        if (p.life <= 0) {
+    particles.forEach((particle, index) => {
+        if (particle.life <= 0) {
             particles.splice(index, 1);
+        } else {
+            particle.update();
+            particle.draw();
         }
     });
-}
-
-function launchFireworks() {
-    setInterval(createFirework, 800);
 }
 
 animate();
