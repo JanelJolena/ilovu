@@ -1,184 +1,197 @@
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>co gang lam gai xinh vuii</title>
-  <style>
-    body {
-      background: url('bg.jpg') no-repeat center center fixed;
-      background-size: cover;
-      font-family: 'Segoe UI', sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Chúc Mừng Năm Mới 2026</title>
 
-    .card {
-      background-color: rgba(255, 255, 255, 0.9);
-      border: 3px solid #ff69b4;
-      border-radius: 15px;
-      padding: 30px;
-      width: 400px;
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
+<style>
+body {
+    margin: 0;
+    overflow: hidden;
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(to top, #8B0000, #B22222, #FFD700);
+    text-align: center;
+    color: gold;
+}
 
-    .heart {
-      color: red;
-      font-size: 40px;
-      margin-bottom: 10px;
-      animation: pulse 1.2s infinite;
-    }
+/* MENU */
+#menu {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+}
 
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.1); }
-      100% { transform: scale(1); }
-    }
+h1 {
+    font-size: 28px;
+    color: #FFD700;
+    text-shadow: 0 0 10px red;
+}
 
-    h1 {
-      color: #ff1493;
-    }
+button {
+    padding: 15px 30px;
+    font-size: 20px;
+    border: none;
+    border-radius: 50px;
+    background: gold;
+    color: red;
+    font-weight: bold;
+    box-shadow: 0 0 20px yellow;
+}
 
-    #message {
-      font-size: 18px;
-      color: #333;
-      margin: 20px 0;
-      min-height: 60px;
-    }
+button:active {
+    transform: scale(0.95);
+}
 
-    #memoryImage {
-      width: 100%;
-      max-height: 200px;
-      object-fit: cover;
-      border-radius: 10px;
-      margin-top: 10px;
-      display: none;
-      opacity: 0;
-      transition: opacity 0.6s;
-    }
+/* COUNTDOWN */
+#countdown {
+    font-size: 90px;
+    margin-top: 40vh;
+    display: none;
+    color: #FFD700;
+    text-shadow: 0 0 30px red;
+}
 
-    .signature {
-      margin-top: 30px;
-      font-style: italic;
-      color: #777;
-    }
+/* MESSAGE */
+#message {
+    display: none;
+    font-size: 22px;
+    padding: 20px;
+    margin-top: 35vh;
+    color: yellow;
+    animation: glow 1.5s infinite alternate;
+}
 
-    .btn-container {
-      margin-top: 20px;
-    }
+@keyframes glow {
+    from { text-shadow: 0 0 10px yellow; }
+    to { text-shadow: 0 0 30px red; }
+}
 
-    button {
-      background-color: #ff69b4;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      margin: 5px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 16px;
-      transition: background-color 0.3s;
-    }
+/* DRAGON */
+#dragon {
+    position: absolute;
+    top: 10%;
+    left: -200px;
+    font-size: 60px;
+    animation: fly 10s linear infinite;
+}
 
-    button:hover {
-      background-color: #ff1493;
-    }
+@keyframes fly {
+    from { left: -200px; }
+    to { left: 120%; }
+}
 
-    .burst-heart {
-      position: absolute;
-      font-size: 24px;
-      color: red;
-      animation: floatUp 1s ease-out forwards;
-      pointer-events: none;
-      user-select: none;
-    }
-
-    @keyframes floatUp {
-      0% { opacity: 1; transform: translateY(0) scale(1); }
-      100% { opacity: 0; transform: translateY(-100px) scale(1.5); }
-    }
-  </style>
+canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+</style>
 </head>
+
 <body>
-  <div class="card" id="card">
-    <div class="heart">❤️</div>
-    <h1>Co gang lam gai xinh vui</h1>
-    <div id="message">Bấm mấy cái nút dưới đây đeeeee</div>
-    <img id="memoryImage" src="" alt="Memory Image" />
-    <div class="btn-container">
-      <button onclick="playMusicAndShowMessage(0)">Lời Nhắn 1</button>
-      <button onclick="playMusicAndShowMessage(1)">Lời Nhắn 2</button>
-      <button onclick="playMusicAndShowMessage(2)">Lời Nhắn 3</button>
-    </div>
-    <div class="signature">— Híu Deptry 💖</div>
-  </div>
 
-  <script>
-    const messages = [
-      "Heloo, mấy hnay mệt lắm đúng hong tui thấy bạn bùn nhìu, cho dù là chuyện jii thì bạn cũng xứng đáng được an ủi với iêu thương đấy nhớ!!",
-      "Đố b bit máy gì hay chậm trễ?? Máy Khoan ,,funny joke plz laugh 😭",
-      "Tin nhắn cuối cùng ròy, giữ gìn skhoe nhaa 67 67 tralalero tralala"
-    ];
+<div id="menu">
+    <h1>🐉 CHÚC MỪNG NĂM MỚI 2026 🐉</h1>
+    <button onclick="startShow()">BẮT ĐẦU</button>
+</div>
 
-    const imagePaths = [
-      "memory1.jpg",
-      "memory2.jpg",
-      "memory3.jpg"
-    ];
+<div id="countdown"></div>
 
-    const clickSounds = [
-      new Audio("click1.mp3"),
-      new Audio("click2.mp3"),
-      new Audio("click3.mp3")
-    ];
+<div id="message">
+🎆 CHÚC MỪNG NĂM MỚI 2026 🎆 <br><br>
+Chúc bạn An Khang - Thịnh Vượng - Vạn Sự Như Ý!
+</div>
 
-    const music = new Audio("love-song.mp3");
-    let hasPlayed = false;
+<div id="dragon">🐉</div>
 
-    function playMusicAndShowMessage(index) {
-      // Play background music once
-      if (!hasPlayed) {
-        music.play();
-        hasPlayed = true;
-      }
+<audio id="bgMusic" loop>
+<source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+</audio>
 
-      // Play click sound
-      clickSounds[index].currentTime = 0;
-      clickSounds[index].play();
+<canvas id="fireworks"></canvas>
 
-      // Update message
-      document.getElementById("message").textContent = messages[index];
+<script>
+let countdownEl = document.getElementById("countdown");
+let menu = document.getElementById("menu");
+let message = document.getElementById("message");
+let music = document.getElementById("bgMusic");
 
-      // Show image with fade-in effect
-      const img = document.getElementById("memoryImage");
-      img.src = imagePaths[index];
-      img.style.display = "block";
-      img.style.opacity = 0;
-      setTimeout(() => img.style.opacity = 1, 50);
+function startShow() {
+    menu.style.display = "none";
+    countdownEl.style.display = "block";
 
-      // Heart animation
-      launchHeartBurst();
+    let count = 3;
+    countdownEl.innerHTML = count;
+
+    let interval = setInterval(() => {
+        count--;
+        if (count > 0) {
+            countdownEl.innerHTML = count;
+        } else {
+            clearInterval(interval);
+            countdownEl.style.display = "none";
+            message.style.display = "block";
+            launchFireworks();
+            music.play();
+        }
+    }, 1000);
+}
+
+/* FIREWORKS */
+let canvas = document.getElementById("fireworks");
+let ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let particles = [];
+
+function createFirework() {
+    let x = Math.random() * canvas.width;
+    let y = Math.random() * canvas.height / 2;
+    let colors = ["red","yellow","gold","orange"];
+
+    for (let i = 0; i < 80; i++) {
+        particles.push({
+            x: x,
+            y: y,
+            radius: 2,
+            color: colors[Math.floor(Math.random()*colors.length)],
+            speedX: (Math.random() - 0.5) * 5,
+            speedY: (Math.random() - 0.5) * 5,
+            life: 80
+        });
     }
+}
 
-    function launchHeartBurst() {
-      const card = document.getElementById("card");
-      const heart = document.createElement("div");
-      heart.className = "burst-heart";
-      heart.textContent = "💖";
+function animate() {
+    requestAnimationFrame(animate);
+    ctx.fillStyle = "rgba(139,0,0,0.2)";
+    ctx.fillRect(0,0,canvas.width,canvas.height);
 
-      heart.style.left = Math.random() * (card.clientWidth - 24) + "px";
-      heart.style.top = card.clientHeight - 40 + "px";
+    particles.forEach((p, index) => {
+        p.x += p.speedX;
+        p.y += p.speedY;
+        p.life--;
 
-      card.appendChild(heart);
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        ctx.fillStyle = p.color;
+        ctx.fill();
 
-      setTimeout(() => heart.remove(), 1000);
-    }
-  </script>
+        if (p.life <= 0) particles.splice(index, 1);
+    });
+}
+
+function launchFireworks() {
+    setInterval(createFirework, 700);
+}
+
+animate();
+</script>
+
 </body>
 </html>
